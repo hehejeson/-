@@ -1,0 +1,74 @@
+代码如下：
+package 四则运算;
+public class Sizeyunsuan {
+
+    public static void main(String[] args) {
+        for(int i=0;i<30;i++){
+        int m=(int)(Math.random()*2);//用于区分是否为分数计算，0-分数，1-整数
+        String suanshi=new String();
+        //分数运算
+        if(m==0)
+        {
+            int numup1,numdown1,fuhao,numup2,numdown2;
+            //生成第一个数
+            numup1=(int)(Math.random()*100);
+            numdown1=(int)(Math.random()*100);
+            //如果分母是0则从新生成分母
+            while(numdown1==0){numdown1=(int)(Math.random()*100);}
+            suanshi=suanshi+"("+numup1+"/"+numdown1+")";
+            //生成符号
+            fuhao=(int)(Math.random()*4);
+            if(fuhao==0) suanshi=suanshi+"+";
+            if(fuhao==1) suanshi=suanshi+"-";
+            if(fuhao==2) suanshi=suanshi+"*";
+            if(fuhao==3) suanshi=suanshi+"/";
+            
+            //生成第二个数
+            if(fuhao==3){
+                numup2=(int)(Math.random()*100);
+                while(numup2==0){numdown2=(int)(Math.random()*100);}//如果分子是0则从新生成分子
+                numdown2=(int)(Math.random()*100);
+                   while(numdown2==0){numdown2=(int)(Math.random()*100);} //如果分母是0则从新生成分母
+                
+            }
+            else{
+                numup2=(int)(Math.random()*100);
+                numdown2=(int)(Math.random()*100);                
+                while(numdown2==0){numdown2=(int)(Math.random()*100);}//如果分母是0则从新生成分母
+                
+            }
+            suanshi=suanshi+"("+numup2+"/"+numdown2+")=";
+        }
+        
+        //整数运算
+        if(m==1)
+        {
+            int num1,fuhao,num2;
+            //生成第一个数
+            num1=(int)(Math.random()*100);
+            suanshi=suanshi+num1;
+            //生成符号
+            fuhao=(int)(Math.random()*4);
+            if(fuhao==0) suanshi=suanshi+"+";
+            if(fuhao==1) suanshi=suanshi+"-";
+            if(fuhao==2) suanshi=suanshi+"*";
+            if(fuhao==3) suanshi=suanshi+"/";
+            //生成第二个数
+            if(fuhao==3){
+                num2=(int)(Math.random()*100);
+                while(num2==0){num2=(int)(Math.random()*100);}
+            }
+            else{
+                num2=(int)(Math.random()*100);
+            }
+            suanshi=suanshi+num2+"=";
+            
+            
+        }
+        System.out.println(suanshi);
+        
+    }
+        
+    }
+}
+
