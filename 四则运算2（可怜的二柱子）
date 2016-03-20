@@ -1,0 +1,171 @@
+可怜的二柱子同学，老师又对他的自动出题系统提出了新的要求：
+1、题目避免重复； 2、可定制（数量/打印方式）； 3、可以控制下列参数: 
+是否有乘除法；
+是否有括号(最多可以支持十个数参与计算)；
+数值范围；
+加减有无负数；
+除法有无余数！
+
+解题思路：
+
+1、定义 SIZE 打印题数
+
+2、定义一个生成数的函数（整数分数随机）参数为（最大值，最小值，有无负数）
+
+3、定义一个生成符号的函数（加减乘除随机）参数为（是否有乘除法）
+
+4、定义string二维数组
+
+5、进入for循环来依次生成题目for(int i=0;i<SIZE;i++)
+
+  5、1输入相关变量（有无负数、有无余数、有无乘除法、数值范围）
+
+  5、2生成符号
+
+  5、3生成第二个数
+
+  5、4生成第一个数（若符号为除法，第一个数直接等于第二个数的倍数）
+
+  5、5将本题赋值给test[i][0]
+
+  5、6利用for循环判断重复，若重复则执行i--。
+
+6、输出题目
+
+源代码：
+
+
+复制代码
+package operation;
+/*
+ * 开始时间11:18
+ * 
+ */
+import java.util.Scanner;
+public class Operation {
+    public static int SIZE=30;
+    /*
+     * 生成数字的函数
+     * max和min表示最大值和最小值范围
+     * judge表示有无负数Y-可以有，N不能有。
+     */
+    public static  String Generatingnumber(int max,int min,String judge)
+    {
+        //是否为分数0-分数，1-整数
+        int m=(int)(Math.random()*2);
+        String result="";
+        if(m==1){
+            int num =1 ;
+            int zhengfu=0;
+            while(zhengfu==0){
+                num=(int)(Math.random()*(max+min)-min);
+                while(num==0){num=(int)(Math.random()*(max+min)-min);}
+                if(judge.equals("N")&&num>0) zhengfu=1;
+                if(judge.equals("Y")) zhengfu=1;
+                }
+             result=result+num;
+        
+            }
+        if(m==0)
+        {
+            int numup1,numdown1;
+            //若为分数则分别生成分子和分母（分母不为零且分子小于分母）
+            int insize=1;
+            //while(insize==1){
+                numup1=(int)(Math.random()*100);
+                numdown1=(int)(Math.random()*100);
+                while(numdown1==0||numup1>numdown1){numdown1=(int)(Math.random()*100);}
+                //分数化为最简
+                int linshi=2;
+                while(numup1>=linshi)
+                {
+                    if(numup1%linshi==0&&numdown1%linshi==0)
+                    {
+                        numup1=numup1/linshi;
+                        numdown1=numdown1/linshi;
+                    }
+                    else linshi++;            
+                }
+                
+                result=result+"("+numup1+"/"+numdown1+")";
+            
+           }
+        return result;
+    }
+    /*
+     * 生成符号的函数
+     * judge2表示有无乘除Y-可以有，N不能有。
+     */
+    public static String Generatingsymbol(String judge2)
+    {
+        String result=new String();
+        int fuhao;
+        if(judge2.equals("Y")){
+            fuhao=(int)(Math.random()*4);
+            if(fuhao==0) result="+";
+            if(fuhao==1) result="-";
+            if(fuhao==2) result="*";
+            if(fuhao==3) result="/";
+            }
+        if(judge2.equals("N")){
+            fuhao=(int)(Math.random()*2);
+            if(fuhao==0) result="+";
+            if(fuhao==1) result="-";
+        }
+        return result;
+    }
+
+    
+    public static void main(String args[])
+    {
+        String test[][]=new String[SIZE][1];
+        for(int i=0;i<SIZE;i++){test[i][0]="";}
+        int max,min;
+        String judge,judge1,judge2;
+        Scanner sca=new Scanner(System.in);
+        System.out.println("请输入运算所涉及数的最小值");
+        min=sca.nextInt();
+        System.out.println("请输入运算所涉及数的最大值");
+        max=sca.nextInt();
+        System.out.println("请输入是否有乘除法Y-可以有，N-不能有");
+        judge2=sca.next();
+        System.out.println("请输入运算可否涉及负数Y-可以有，N-不能有");
+        judge=sca.next();
+        System.out.println("请输入除法可否有余数Y-可以有，N-不能有");
+        judge1=sca.next();
+        
+        for(int i=0;i<SIZE;i++)
+        {
+            String fuhao=Generatingsymbol(judge2);
+            String num2=Generatingnumber(max,min,judge);
+            String num1=new String();
+            if(fuhao.equals("/")&&judge1.equals("N")){
+                num2=""+(int)Math.random()*100;
+                int intnum2=Integer.parseInt(num2);
+                num1= ""+((int)(Math.random()*100)*intnum2);
+            } 
+            else num1=Generatingnumber( max, min, judge);
+            test[i][0]=num1+fuhao+num2;
+            //去重语句
+            if(i>=1){
+                for(int j=0;j<i;j++){
+                    if(test[i][0].equals(test[j][0])) {i--;break;}
+                }
+            }
+            
+        }
+        //输出
+        for(int p=0;p<SIZE;p++)
+        {
+            System.out.println(test[p][0]);
+        }
+    }
+
+}
+
+复制代码
+
+结果截图：
+
+
+ 
